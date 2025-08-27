@@ -1,40 +1,18 @@
 const api = {
-    endpoint: 'https://api.openweathermap.org/data/2.5/',
-    key: '45851954e0676ccefceb04cc38b4c9dd'
+    endpoint: '/.netlify/functions/weather',
 }
-
-// const globalDate = {
-//     endpoint: 'https://api.ipgeolocation.io/timezone',
-//     key: 'a45c396dc695449d913b8ab81889d3a0'
-// }
 
 const input = document.querySelector('#input');
-input.addEventListener('keypress', enter);
+input.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') getInfo(input.value.trim());
+});
 
-function enter(e) {
-    if (e.keyCode === 13) {
-        getInfo(input.value);
-        // getGlobalDate(input.value);
-    }
-}
+async function getInfo(city) {
+  if (!city) return;
 
-// async function getGlobalDate(info) {
-//     const resDate = await fetch(`${globalDate.endpoint}?apiKey=${globalDate.key}&location=${info}`);
-//     const resultDate = await resDate.json();
-//     console.log(resultDate);
-//     timeZone(resultDate);
-// }
-
-// function timeZone(resultDate) {
-//     let date = document.querySelector('#date');
-//     date.textContent = `${resultDate.date_time_txt}`;
-// }
-
-async function getInfo(data) {
-    const res = await fetch(`${api.endpoint}weather?q=${data}&units=metric&appID=${api.key}`);
-    const result = await res.json();
-    console.log(result);
-    show(result);
+  const res = await fetch(`${api.endpoint}?q=${encodeURIComponent(city)}&units=metric&lang=ru`);
+  const result = await res.json();
+  show(result);
 }
 
 function show(result) {
