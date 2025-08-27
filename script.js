@@ -10,7 +10,7 @@ input.addEventListener('keydown', (e) => {
 async function getInfo(city) {
   if (!city) return;
 
-  const res = await fetch(`${api.endpoint}?q=${encodeURIComponent(city)}&units=metric&lang=ru`);
+  const res = await fetch(`${api.endpoint}?q=${encodeURIComponent(city)}&units=metric&lang=en`);
   const result = await res.json();
   show(result);
 }
